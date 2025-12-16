@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yakup Yesil - Die Stier Animation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-family: 'Comic Sans MS', cursive;
+        }
+
+        .scene {
+            position: relative;
+            width: 800px;
+            height: 600px;
+        }
+
+        /* Der fette Stier */
+        .bull {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 120px;
+            animation: bull-strain 0.5s ease-in-out infinite;
+        }
+
+        @keyframes bull-strain {
+            0%, 100% { transform: translateX(-50%) scaleY(1); }
+            50% { transform: translateX(-50%) scaleY(0.95) scaleX(1.05); }
+        }
+
+        /* Stier SVG */
+        .bull-body {
+            width: 300px;
+            height: 200px;
+            position: relative;
+        }
+
+        .bull-svg {
+            width: 350px;
+            height: 250px;
+        }
+
+        /* Schweiß-Tropfen */
+        .sweat {
+            position: absolute;
+            top: -30px;
+            left: 80px;
+            font-size: 30px;
+            animation: sweat-drop 1s ease-in-out infinite;
+        }
+
+        @keyframes sweat-drop {
+            0%, 100% { opacity: 1; transform: translateY(0); }
+            50% { opacity: 0.5; transform: translateY(10px); }
+        }
+
+        /* Der Name der rausschießt */
+        .name-container {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .name {
+            font-size: 48px;
+            font-weight: bold;
+            color: #8B4513;
+            text-shadow:
+                3px 3px 0 #5D3A1A,
+                -1px -1px 0 #5D3A1A,
+                1px -1px 0 #5D3A1A,
+                -1px 1px 0 #5D3A1A,
+                0 0 20px #DAA520,
+                0 0 40px #FFD700;
+            animation: shoot-out 2s ease-out infinite;
+            white-space: nowrap;
+        }
+
+        @keyframes shoot-out {
+            0% {
+                transform: translateY(0) scale(0.1);
+                opacity: 0;
+            }
+            20% {
+                transform: translateY(50px) scale(0.5);
+                opacity: 1;
+            }
+            40% {
+                transform: translateY(150px) scale(1) rotate(-5deg);
+            }
+            60% {
+                transform: translateY(250px) scale(1.2) rotate(5deg);
+            }
+            80% {
+                transform: translateY(350px) scale(1.5) rotate(-3deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(500px) scale(2);
+                opacity: 0;
+            }
+        }
+
+        /* Stink-Wolken */
+        .stink {
+            position: absolute;
+            font-size: 40px;
+            animation: stink-float 1.5s ease-out infinite;
+            opacity: 0.7;
+        }
+
+        .stink:nth-child(1) { left: 200px; bottom: 80px; animation-delay: 0s; }
+        .stink:nth-child(2) { left: 250px; bottom: 60px; animation-delay: 0.3s; }
+        .stink:nth-child(3) { left: 180px; bottom: 40px; animation-delay: 0.6s; }
+
+        @keyframes stink-float {
+            0% { transform: translateY(0) scale(1); opacity: 0.7; }
+            100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
+        }
+
+        /* Splatter Effekt */
+        .splatter {
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 60px;
+            animation: splat 2s ease-out infinite;
+        }
+
+        @keyframes splat {
+            0%, 20% { transform: translateX(-50%) scale(0); opacity: 0; }
+            40% { transform: translateX(-50%) scale(1); opacity: 1; }
+            100% { transform: translateX(-50%) scale(1.2); opacity: 0.3; }
+        }
+
+        /* Titel */
+        .title {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #FFD700;
+            font-size: 24px;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Partikel */
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #8B4513;
+            border-radius: 50%;
+            animation: particle-fly 2s ease-out infinite;
+        }
+
+        .particle:nth-child(1) { left: 48%; animation-delay: 0.1s; }
+        .particle:nth-child(2) { left: 50%; animation-delay: 0.2s; }
+        .particle:nth-child(3) { left: 52%; animation-delay: 0.3s; }
+        .particle:nth-child(4) { left: 46%; animation-delay: 0.4s; }
+        .particle:nth-child(5) { left: 54%; animation-delay: 0.5s; }
+
+        @keyframes particle-fly {
+            0% {
+                bottom: 100px;
+                transform: scale(0);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                bottom: -100px;
+                transform: scale(0.5) translateX(var(--x, 0));
+                opacity: 0;
+            }
+        }
+
+        .particle:nth-child(1) { --x: -50px; }
+        .particle:nth-child(2) { --x: 0px; }
+        .particle:nth-child(3) { --x: 50px; }
+        .particle:nth-child(4) { --x: -30px; }
+        .particle:nth-child(5) { --x: 30px; }
+
+        /* Sound Effekt Text */
+        .sound-effect {
+            position: absolute;
+            font-size: 36px;
+            font-weight: bold;
+            color: #FF6B6B;
+            animation: sound-pop 2s ease-out infinite;
+        }
+
+        .sound-effect:nth-child(1) { top: 200px; right: 100px; }
+        .sound-effect:nth-child(2) { top: 250px; left: 100px; animation-delay: 0.5s; }
+
+        @keyframes sound-pop {
+            0%, 100% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
+            70% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Goldene Buchstaben einzeln */
+        .letter {
+            display: inline-block;
+            animation: letter-bounce 0.5s ease infinite;
+        }
+
+        .letter:nth-child(1) { animation-delay: 0.05s; }
+        .letter:nth-child(2) { animation-delay: 0.1s; }
+        .letter:nth-child(3) { animation-delay: 0.15s; }
+        .letter:nth-child(4) { animation-delay: 0.2s; }
+        .letter:nth-child(5) { animation-delay: 0.25s; }
+        .letter:nth-child(6) { animation-delay: 0.3s; }
+        .letter:nth-child(7) { animation-delay: 0.35s; }
+        .letter:nth-child(8) { animation-delay: 0.4s; }
+        .letter:nth-child(9) { animation-delay: 0.45s; }
+        .letter:nth-child(10) { animation-delay: 0.5s; }
+        .letter:nth-child(11) { animation-delay: 0.55s; }
+
+        @keyframes letter-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="scene">
+        <div class="title">🎬 Die legendäre Stier-Animation 🎬</div>
+
+        <!-- Sound Effekte -->
+        <div class="sound-effect">PRRRT!</div>
+        <div class="sound-effect">PLATSCH!</div>
+
+        <!-- Der Stier -->
+        <div class="bull">
+            <div class="sweat">💦</div>
+            <svg class="bull-svg" viewBox="0 0 200 150">
+                <!-- Körper -->
+                <ellipse cx="100" cy="90" rx="70" ry="50" fill="#8B4513"/>
+                <!-- Bauch (extra fett) -->
+                <ellipse cx="100" cy="100" rx="75" ry="45" fill="#A0522D"/>
+                <!-- Kopf -->
+                <circle cx="40" cy="70" r="30" fill="#8B4513"/>
+                <!-- Schnauze -->
+                <ellipse cx="20" cy="80" rx="15" ry="12" fill="#DEB887"/>
+                <!-- Nasenlöcher -->
+                <circle cx="15" cy="78" r="3" fill="#333"/>
+                <circle cx="25" cy="78" r="3" fill="#333"/>
+                <!-- Augen (angestrengt) -->
+                <line x1="30" y1="60" x2="40" y2="65" stroke="#333" stroke-width="3"/>
+                <line x1="45" y1="60" x2="55" y2="65" stroke="#333" stroke-width="3"/>
+                <!-- Hörner -->
+                <path d="M 35 45 Q 20 20 35 25" stroke="#F5DEB3" stroke-width="8" fill="none"/>
+                <path d="M 55 45 Q 70 20 55 25" stroke="#F5DEB3" stroke-width="8" fill="none"/>
+                <!-- Beine -->
+                <rect x="50" y="130" width="15" height="30" fill="#5D3A1A"/>
+                <rect x="75" y="130" width="15" height="30" fill="#5D3A1A"/>
+                <rect x="110" y="130" width="15" height="30" fill="#5D3A1A"/>
+                <rect x="135" y="130" width="15" height="30" fill="#5D3A1A"/>
+                <!-- Schwanz (hochgehoben) -->
+                <path d="M 170 80 Q 190 60 185 40" stroke="#5D3A1A" stroke-width="6" fill="none"/>
+                <circle cx="185" cy="38" r="8" fill="#5D3A1A"/>
+                <!-- Roter angestrengter Kopf -->
+                <circle cx="40" cy="70" r="25" fill="rgba(255,0,0,0.2)"/>
+            </svg>
+        </div>
+
+        <!-- Stink Wolken -->
+        <div class="stink">💨</div>
+        <div class="stink">💨</div>
+        <div class="stink">💨</div>
+
+        <!-- Partikel -->
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+
+        <!-- Der Name der rausschießt -->
+        <div class="name-container">
+            <div class="name">
+                <span class="letter">Y</span><span class="letter">A</span><span class="letter">K</span><span class="letter">U</span><span class="letter">P</span><span class="letter"> </span><span class="letter">Y</span><span class="letter">E</span><span class="letter">S</span><span class="letter">I</span><span class="letter">L</span>
+            </div>
+        </div>
+
+        <!-- Splatter -->
+        <div class="splatter">💩💩💩</div>
+    </div>
+
+    <script>
+        // Extra Partikel dynamisch hinzufügen
+        function createParticle() {
+            const scene = document.querySelector('.scene');
+            const particle = document.createElement('div');
+            particle.style.cssText = `
+                position: absolute;
+                bottom: 100px;
+                left: ${45 + Math.random() * 10}%;
+                width: ${5 + Math.random() * 10}px;
+                height: ${5 + Math.random() * 10}px;
+                background: #8B4513;
+                border-radius: 50%;
+                pointer-events: none;
+            `;
+            scene.appendChild(particle);
+
+            let y = 100;
+            let x = 0;
+            const xVel = (Math.random() - 0.5) * 5;
+
+            function animate() {
+                y -= 5;
+                x += xVel;
+                particle.style.bottom = y + 'px';
+                particle.style.transform = `translateX(${x}px)`;
+                particle.style.opacity = Math.max(0, (y + 100) / 200);
+
+                if (y > -100) {
+                    requestAnimationFrame(animate);
+                } else {
+                    particle.remove();
+                }
+            }
+            animate();
+        }
+
+        // Partikel alle 200ms erstellen
+        setInterval(createParticle, 200);
+    </script>
+</body>
+</html>
